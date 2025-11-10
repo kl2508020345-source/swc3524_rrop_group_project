@@ -49,6 +49,7 @@ public class MaritimeReliefRouteOptimization {
     }
 
     public static void main(String[] args) {
+         System.out.println("--- Maritime Relief Route Optimization (Greedy Algorithm) ---");
         System.out.println(greedyTSP(distanceMatrix));
         
     }
