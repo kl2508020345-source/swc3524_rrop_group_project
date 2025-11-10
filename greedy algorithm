@@ -1,0 +1,55 @@
+import java.util.*;
+
+public class MaritimeReliefRouteOptimization {
+
+    static int[][] distanceMatrix = {
+        {0, 15, 25, 35},
+        {15, 0, 30, 28},
+        {25, 30, 0, 20},
+        {35, 28, 20, 0}
+    };
+
+    static String[] locations = {"Port A", "Port B", "Relief Center C", "Relief Center D"};
+
+    public static String greedyTSP(int[][] dist) {
+        int n = dist.length;
+        boolean[] visited = new boolean[n];
+        
+        int currentCity = 0;
+        visited[currentCity] = true;
+        
+        StringBuilder route = new StringBuilder(locations[currentCity]);
+        int totalDistance = 0;
+
+        for (int i = 0; i < n - 1; i++) {
+            int nearestCity = -1;
+            int minDistance = Integer.MAX_VALUE;
+
+            for (int nextCity = 0; nextCity < n; nextCity++) {
+                if (!visited[nextCity] && dist[currentCity][nextCity] < minDistance) {
+                    minDistance = dist[currentCity][nextCity];
+                    nearestCity = nextCity;
+                }
+            }
+
+            if (nearestCity != -1) {
+                visited[nearestCity] = true;
+                route.append(" -> ").append(locations[nearestCity]);
+                totalDistance += minDistance;
+                currentCity = nearestCity;
+            } else {
+                return "Error";
+            }
+        }
+
+        totalDistance += dist[currentCity][0];
+        route.append(" -> ").append(locations[0]);
+
+        return String.format("Greedy TSP Route: %s | Total Distance: %d nm", route.toString(), totalDistance);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(greedyTSP(distanceMatrix));
+        
+    }
+}
